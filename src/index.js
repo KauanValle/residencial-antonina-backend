@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://residencial-antonina-backend-production.up.railway.app'],
+  origin: ['http://localhost:5173', 'https://residencial-antonina-backend-production.up.railway.app'],
   credentials: true,
 }));
 
