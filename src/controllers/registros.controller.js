@@ -66,7 +66,7 @@ export async function criar(req, res) {
   try {
     const {
       nomePessoa, tipoAcesso,
-      temVeiculo, modeloCarro, placa, dataEntrada,
+      temVeiculo, modeloCarro, placa, dataEntrada, bloco, apartamento
     } = req.body;
 
     if (!nomePessoa || !tipoAcesso || !dataEntrada) {
