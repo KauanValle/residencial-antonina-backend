@@ -65,11 +65,11 @@ export async function buscarPorId(req, res) {
 export async function criar(req, res) {
   try {
     const {
-      nomePessoa, tipoAcesso, destino,
+      nomePessoa, tipoAcesso,
       temVeiculo, modeloCarro, placa, dataEntrada,
     } = req.body;
 
-    if (!nomePessoa || !tipoAcesso || !destino || !dataEntrada) {
+    if (!nomePessoa || !tipoAcesso || !dataEntrada) {
       return res.status(400).json({ error: 'Campos obrigatórios faltando.' });
     }
 
@@ -77,12 +77,13 @@ export async function criar(req, res) {
       data: {
         nomePessoa,
         tipoAcesso,
-        destino,
         temVeiculo: !!temVeiculo,
         modeloCarro: temVeiculo ? modeloCarro : null,
         placa: temVeiculo ? placa : null,
         dataEntrada: new Date(dataEntrada),
         criadoPorId: req.user.id,
+        bloco,
+        apartamento
       },
       include: { criadoPor: { select: { id: true, nome: true, username: true } } },
     });
