@@ -21,8 +21,14 @@ app.use('/api/registros', registroRoutes);
 app.use('/api/users', userRoutes);
 
 // Sobrescreve o toJSON do Date para não converter para UTC
-Date.prototype.toJSON = function() {
-  return this.toLocaleString('sv-SE', { timeZone: 'America/Sao_Paulo' }).replace(' ', 'T');
+// Serializa datas com offset de SP em vez de UTC
+Date.prototype.toJSON = function () {
+  const sp = new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'America/Sao_Paulo',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+  }).format(this);
+  return sp.replace(' ', 'T') + '-03:00';
 };
 
 // Health check
