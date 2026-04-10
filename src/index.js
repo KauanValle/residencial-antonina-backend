@@ -20,6 +20,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/registros', registroRoutes);
 app.use('/api/users', userRoutes);
 
+// Sobrescreve o toJSON do Date para não converter para UTC
+Date.prototype.toJSON = function() {
+  return this.toLocaleString('sv-SE', { timeZone: 'America/Sao_Paulo' }).replace(' ', 'T');
+};
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
