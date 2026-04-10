@@ -80,7 +80,16 @@ export async function criar(req, res) {
         temVeiculo: !!temVeiculo,
         modeloCarro: temVeiculo ? modeloCarro : null,
         placa: temVeiculo ? placa : null,
-        dataEntrada: new Date(dataEntrada),
+        dataEntrada: new Date(dataEntrada + ':00.000+00:00').toISOString()
+  ? (() => {
+      // dataEntrada vem como "2026-04-09T23:45" (sem timezone = horário de SP)
+      // Adiciona -03:00 para o Prisma não interpretar como UTC
+      const d = dataEntrada.includes('+') || dataEntrada.includes('Z')
+        ? new Date(dataEntrada)
+        : new Date(dataEntrada + '-03:00');
+      return d;
+    })()
+  : new Date(dataEntrada),
         criadoPorId: req.user.id,
         bloco,
         apartamento

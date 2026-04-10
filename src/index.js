@@ -23,13 +23,22 @@ app.use('/api/users', userRoutes);
 // Sobrescreve o toJSON do Date para não converter para UTC
 // Serializa datas com offset de SP em vez de UTC
 Date.prototype.toJSON = function () {
-  const sp = new Intl.DateTimeFormat('sv-SE', {
-    timeZone: 'America/Sao_Paulo',
-    year: 'numeric', month: '2-digit', day: '2-digit',
-    hour: '2-digit', minute: '2-digit', second: '2-digit',
-  }).format(this);
-  return sp.replace(' ', 'T') + '-03:00';
+  const offset = -3 * 60; // SP = UTC-3
+  const sp = new Date(this.getTime() + offset * 60 * 1000);
+  const pad = (n) => String(n).padStart(2, '0');
+  const y = sp.getUTCFullYear();
+  const mo = pad(sp.getUTCMonth() + 1);
+  const d = pad(sp.getUTCDate());
+  const h = pad(sp.getUTCHours());
+  const mi = pad(sp.getUTCMinutes());
+  const s = pad(sp.getUTCSeconds());
+  return `${y}-${mo}-${d}T${h}:${mi}:${s}-03:00`;
 };
+
+const agora = new Date();
+console.log('UTC:', agora.toISOString());
+console.log('getHours:', agora.getHours());
+console.log('TZ:', process.env.TZ);
 
 // Health check
 app.get('/api/health', (req, res) => {
