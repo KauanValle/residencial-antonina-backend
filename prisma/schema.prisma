@@ -16,6 +16,7 @@ model User {
   createdAt    DateTime   @default(now()) @map("created_at")
   updatedAt    DateTime   @updatedAt @map("updated_at")
   registros    Registro[]
+  registrosAgua RegistroAgua[]
 
   @@map("users")
 }
@@ -41,4 +42,17 @@ model Registro {
 enum Role {
   admin
   operator
+}
+
+model RegistroAgua {
+  id             Int       @id @default(autoincrement())
+  porteiroId     Int       @map("porteiro_id")
+  porteiro       User      @relation(fields: [porteiroId], references: [id])
+  leituraManha   Int?      @map("leitura_manha")
+  leituraNoite   Int?      @map("leitura_noite")
+  media          Float?    @map("media")
+  dataLeitura    DateTime  @map("data_leitura")
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  @@map("registros_agua")
 }

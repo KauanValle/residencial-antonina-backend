@@ -4,6 +4,7 @@ import 'dotenv/config';
 import authRoutes from './routes/auth.js';
 import registroRoutes from './routes/registros.js';
 import userRoutes from './routes/users.js';
+import registro_aguaRoutes from './routes/registros_agua.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/registros', registroRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/registro-agua', registro_aguaRoutes)
 
 // Sobrescreve o toJSON do Date para não converter para UTC
 // Serializa datas com offset de SP em vez de UTC
@@ -34,11 +36,6 @@ Date.prototype.toJSON = function () {
   const s = pad(sp.getUTCSeconds());
   return `${y}-${mo}-${d}T${h}:${mi}:${s}-03:00`;
 };
-
-const agora = new Date();
-console.log('UTC:', agora.toISOString());
-console.log('getHours:', agora.getHours());
-console.log('TZ:', process.env.TZ);
 
 // Health check
 app.get('/api/health', (req, res) => {
