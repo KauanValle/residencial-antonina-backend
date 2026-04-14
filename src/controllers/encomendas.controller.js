@@ -26,7 +26,7 @@ export async function listar(req, res) {
     ]);
 
     // Remove selfie da listagem para não pesar
-    const data = encomendas.map(({ selfieRetirada, ...rest }) => rest);
+    const data = encomendas.map(({ ...rest }) => rest);
 
     res.json({
       data,
