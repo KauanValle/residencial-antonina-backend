@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.js';
 import registroRoutes from './routes/registros.js';
 import userRoutes from './routes/users.js';
 import registro_aguaRoutes from './routes/registros_agua.js';
+import encomendasRoutes from './routes/encomendas.routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -21,6 +22,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/registros', registroRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/registro-agua', registro_aguaRoutes)
+app.use('/api/encomendas', encomendasRoutes)
 
 // Sobrescreve o toJSON do Date para não converter para UTC
 // Serializa datas com offset de SP em vez de UTC

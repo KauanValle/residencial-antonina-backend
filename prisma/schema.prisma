@@ -17,6 +17,7 @@ model User {
   updatedAt    DateTime   @updatedAt @map("updated_at")
   registros    Registro[]
   registrosAgua RegistroAgua[]
+  encomendas Encomenda[]
 
   @@map("users")
 }
@@ -56,3 +57,28 @@ model RegistroAgua {
 
   @@map("registros_agua")
 }
+
+model Encomenda {
+  id                  Int       @id @default(autoincrement())
+  destinatario        String
+  bloco               String
+  apartamento         String
+  horarioChegada      DateTime  @map("horario_chegada")
+  quantidadeItens     Int       @map("quantidade_itens")
+  observacao          String?
+  status              StatusEncomenda @default(pendente)
+  retiradaPor         String?   @map("retirada_por")
+  selfieRetirada      String?   @map("selfie_retirada") // base64 ou URL
+  dataRetirada        DateTime? @map("data_retirada")
+  criadoPorId         Int       @map("criado_por_user_id")
+  criadoPor           User      @relation(fields: [criadoPorId], references: [id])
+  createdAt           DateTime  @default(now()) @map("created_at")
+
+  @@map("encomendas")
+}
+
+enum StatusEncomenda {
+  pendente
+  retirada
+}
+
