@@ -3,6 +3,7 @@ import { authenticate } from '../middleware/auth.js';
 import {
   criar,
   listar,
+  deletar,
   updateLeituraNoite
 } from '../controllers/registro-agua.controller.js';
 
@@ -13,5 +14,6 @@ router.use(authenticate);
 router.get('/', listar);
 router.post('/', criar);
 router.put('/:id', updateLeituraNoite)
+router.delete('/registro-agua/:id', deletar);
 
 export default router;
