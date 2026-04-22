@@ -104,15 +104,15 @@ export async function updateLeituraNoite(req, res) {
 export async function deletar(req, res) {
   const id = parseInt(req.params.id);
 
-  if (req.user.id === id) {
-    return res.status(400).json({ error: 'Você não pode excluir sua própria conta.' });
+  if (req.registroAgua.id === id) {
+    return res.status(400).json({ error: 'Você não pode excluir seu próprio registro de água.' });
   }
 
   try {
-    await prisma.user.delete({ where: { id } });
-    res.json({ message: 'Usuário excluído com sucesso.' });
+    await prisma.registroAgua.delete({ where: { id } });
+    res.json({ message: 'Registro de água excluído com sucesso.' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Erro ao excluir usuário.' });
+    res.status(500).json({ error: 'Erro ao excluir registro de água.' });
   }
 }
