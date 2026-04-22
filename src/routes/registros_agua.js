@@ -14,6 +14,6 @@ router.use(authenticate);
 router.get('/', listar);
 router.post('/', criar);
 router.put('/:id', updateLeituraNoite)
-router.delete('/registro-agua/:id', deletar);
+router.delete('/:id', deletar);
 
 export default router;
