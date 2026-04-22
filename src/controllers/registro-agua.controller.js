@@ -104,11 +104,13 @@ export async function updateLeituraNoite(req, res) {
 export async function deletar(req, res) {
   const id = parseInt(req.params.id);
 
-  if (req.registroAgua.id === id) {
-    return res.status(400).json({ error: 'Você não pode excluir seu próprio registro de água.' });
-  }
-
   try {
+    // Busca o registro para verificar existência e proprietário
+    const registro = await prisma.registroAgua.findUnique({ where: { id } });
+    if (!registro) {
+      return res.status(404).json({ error: 'Registro de água não encontrado.' });
+    }
+
     await prisma.registroAgua.delete({ where: { id } });
     res.json({ message: 'Registro de água excluído com sucesso.' });
   } catch (err) {
